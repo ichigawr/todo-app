@@ -7,6 +7,17 @@ localStorage.todos ??= JSON.stringify([]);
 
 const renderTodos = () => {
   const todos = JSON.parse(localStorage.todos);
+
+  if (todos.length === 0) {
+    todoList.innerHTML = `
+      <li>
+        <span style="margin-left: 1.25rem">No todos yet!</span>
+      </li>
+    `;
+
+    return;
+  }
+
   todoList.innerHTML = todos
     .map(
       (todo) => `
@@ -25,7 +36,7 @@ const renderTodos = () => {
 };
 
 addBtn.addEventListener("click", () => {
-  const todo = input.value;
+  const todo = input.value.trim();
 
   if (todo.length === 0) {
     alertText.style.color = "red";
