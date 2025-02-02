@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="assets/icons/logo.png" />
+        <title>To-Do List</title>
+        <link rel="stylesheet" href="assets/styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        />
+    </head>
+    <body>
+        <main>
+            <h1>To-Do List <i class="fa-solid fa-list-check"></i></h1>
+
+            <div id="add-todo-form">
+                <input
+                    type="text"
+                    id="todo-input"
+                    placeholder="Add a new task"
+                />
+                <button id="add-todo">Add</button>
+            </div>
+
+            <p id="alert-text"><em>Please enter a todo.</em></p>
+
+            <ul id="todo-list"></ul>
+        </main>
+
+        <script src="script.js"></script>
+    </body>
+</html>

@@ -1,0 +1,185 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+    --red: #e54333;
+    --gray: #dddcdc;
+    --white: #fff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    padding: 6.25rem;
+    background: linear-gradient(135deg, #153677, #4e085f);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 31.25rem;
+    margin: auto;
+    padding: 2.5rem 1.875rem;
+    border-radius: 1rem;
+    background-color: var(--white);
+}
+
+button,
+label {
+    cursor: pointer;
+}
+
+#add-todo-form {
+    display: flex;
+    width: 100%;
+    background-color: var(--gray);
+
+    &,
+    button {
+        border-radius: 1.875rem;
+    }
+
+    input {
+        flex: 1;
+        padding: 0.9375rem 1.25rem;
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+
+    button {
+        width: fit-content;
+        padding: 0.9375rem 3.125rem;
+        border: none;
+        font-size: 1rem;
+        color: var(--white);
+        background-color: var(--red);
+        transform: scale(1);
+        transition: transform 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    button:active {
+        transform: scale(1);
+    }
+}
+
+p {
+    margin: -1.25rem 0 0 1.25rem;
+    color: transparent;
+    user-select: none;
+}
+
+#todo-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+}
+
+#todo-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    width: 100%;
+    list-style: none;
+
+    label {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+    }
+
+    input {
+        appearance: none;
+        position: relative;
+        display: block;
+        width: 1.5625rem;
+        height: 1.5625rem;
+        border: 3px solid var(--gray);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    input:checked {
+        background-color: var(--red);
+        border-color: var(--red);
+    }
+
+    input:checked + span {
+        text-decoration: line-through;
+        color: var(--gray);
+    }
+
+    label:hover input:not(:checked) {
+        background-color: var(--gray);
+    }
+
+    input::before,
+    input::after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    input::before {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: var(--red);
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+        transition: transform 0.2s, opacity 0.2s;
+    }
+
+    input:checked:focus::before {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0.2;
+    }
+
+    input::after {
+        width: 50%;
+        height: 25%;
+        border: solid 2px transparent;
+        border-right: none;
+        border-top: none;
+        transform: translate(-50%, -60%) rotate(-45deg);
+    }
+
+    input:checked::after {
+        border-color: var(--white);
+    }
+}
+
+.fa-solid.fa-list-check {
+    margin-left: 10px;
+    color: var(--red);
+}
+
+.delete-todo {
+    display: grid;
+    place-items: center;
+    width: 1.875rem;
+    height: 1.875rem;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+
+    &:hover {
+        background-color: var(--gray);
+    }
+}
