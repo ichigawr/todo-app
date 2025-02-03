@@ -20,11 +20,11 @@ const renderTodos = () => {
 
   todoList.innerHTML = todos
     .map(
-      (todo) => `
+      ({ name, completed }) => `
         <li>
           <label>
-            <input type="checkbox" />
-            <span>${todo}</span>
+            <input type="checkbox" ${completed ? "checked" : ""} />
+            <span>${name}</span>
           </label>
           <button class="delete-todo">
             <i class="fa-solid fa-xmark"></i>
@@ -49,7 +49,7 @@ addBtn.addEventListener("click", () => {
   }
 
   const todos = JSON.parse(localStorage.todos);
-  todos.push(todo);
+  todos.push({ name: todo, completed: false });
   localStorage.todos = JSON.stringify(todos);
   renderTodos();
   input.value = "";
@@ -60,10 +60,23 @@ input.addEventListener("keypress", (e) => {
 });
 
 todoList.addEventListener("click", (e) => {
+  // Delete todo
   if (e.target.closest(".delete-todo")) {
     const todoText = e.target.closest("li").querySelector("span").textContent;
     const todos = JSON.parse(localStorage.todos);
-    const newTodos = todos.filter((todo) => todo !== todoText);
+    const newTodos = todos.filter((todo) => todo.name !== todoText);
+    localStorage.todos = JSON.stringify(newTodos);
+    renderTodos();
+    return;
+  }
+
+  // Toggle todo completion
+  if (e.target.tagName === "INPUT") {
+    const todoText = e.target.closest("li").querySelector("span").textContent;
+    const todos = JSON.parse(localStorage.todos);
+    const newTodos = todos.map((todo) =>
+      todo.name === todoText ? { ...todo, completed: !todo.completed } : todo
+    );
     localStorage.todos = JSON.stringify(newTodos);
     renderTodos();
   }
