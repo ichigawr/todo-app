@@ -78,7 +78,6 @@ todoList.addEventListener("click", (e) => {
       todo.name === todoText ? { ...todo, completed: !todo.completed } : todo
     );
     localStorage.todos = JSON.stringify(newTodos);
-    renderTodos();
   }
 });
 
