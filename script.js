@@ -23,14 +23,23 @@ const renderTodos = () => {
       ({ name, completed }) => `
         <li>
           <label>
-            <input type="checkbox" ${completed ? "checked" : ""} />
+            <input
+              type="checkbox"
+              class="checkbox"
+              ${completed ? "checked" : ""}
+            />
             <span>${name}</span>
           </label>
-          <button class="delete-todo">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+          <div class="buttons">
+            <button class="edit-todo" ${completed ? "disabled" : ""}>
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="delete-todo">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
         </li>
-    `
+      `
     )
     .join("");
 };
@@ -60,6 +69,35 @@ input.addEventListener("keypress", (e) => {
 });
 
 todoList.addEventListener("click", (e) => {
+  // Edit todo
+  if (e.target.closest(".edit-todo")) {
+    const li = e.target.closest("li");
+    const span = li.querySelector("span");
+    const todoText = span.textContent;
+    const input = document.createElement("input");
+    input.value = todoText;
+    span.replaceWith(input);
+    input.focus();
+
+    input.addEventListener("blur", () => {
+      const newText = input.value.trim();
+      if (newText) {
+        const todos = JSON.parse(localStorage.todos);
+        const newTodos = todos.map((todo) =>
+          todo.name === todoText ? { ...todo, name: newText } : todo
+        );
+        localStorage.todos = JSON.stringify(newTodos);
+        renderTodos();
+      } else {
+        input.replaceWith(span);
+      }
+    });
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") input.blur();
+    });
+  }
+
   // Delete todo
   if (e.target.closest(".delete-todo")) {
     const todoText = e.target.closest("li").querySelector("span").textContent;
@@ -72,12 +110,16 @@ todoList.addEventListener("click", (e) => {
 
   // Toggle todo completion
   if (e.target.tagName === "INPUT") {
-    const todoText = e.target.closest("li").querySelector("span").textContent;
+    const li = e.target.closest("li");
+    const todoText = li.querySelector("span").textContent;
     const todos = JSON.parse(localStorage.todos);
     const newTodos = todos.map((todo) =>
       todo.name === todoText ? { ...todo, completed: !todo.completed } : todo
     );
     localStorage.todos = JSON.stringify(newTodos);
+
+    const editBtn = li.getElementsByClassName("edit-todo")[0];
+    editBtn.disabled = !editBtn.disabled;
   }
 });
 
