@@ -1,13 +1,13 @@
 const input = document.getElementById("todo-input");
 const addBtn = document.getElementById("add-todo");
 const alertText = document.getElementById("alert-text");
+const filter = document.getElementById("filter-todos");
+const filterBtns = Array.from(filter.getElementsByTagName("input"));
 const todoList = document.getElementById("todo-list");
 
 localStorage.todos ??= JSON.stringify([]);
 
-const renderTodos = () => {
-  const todos = JSON.parse(localStorage.todos);
-
+const renderTodos = (todos = JSON.parse(localStorage.todos)) => {
   if (todos.length === 0) {
     todoList.innerHTML = `
       <li>
@@ -47,17 +47,28 @@ const renderTodos = () => {
 addBtn.addEventListener("click", () => {
   const todo = input.value.trim();
 
-  if (todo.length === 0) {
+  const alert = () => {
     alertText.style.color = "red";
 
     setTimeout(() => {
       alertText.style.color = "transparent";
     }, 2000);
+  };
 
+  if (todo.length === 0) {
+    alertText.textContent = "Please enter a todo.";
+    alert();
     return;
   }
 
   const todos = JSON.parse(localStorage.todos);
+
+  if (todos.some((t) => t.name === todo)) {
+    alertText.textContent = "Todo already exists.";
+    alert();
+    return;
+  }
+
   todos.push({ name: todo, completed: false });
   localStorage.todos = JSON.stringify(todos);
   renderTodos();
@@ -66,6 +77,26 @@ addBtn.addEventListener("click", () => {
 
 input.addEventListener("keypress", (e) => {
   if (e.key === "Enter") addBtn.click();
+});
+
+filter.addEventListener("click", (e) => {
+  if (e.target.closest("#all-todos")) {
+    renderTodos();
+    return;
+  }
+
+  if (e.target.closest("#active-todos")) {
+    const todos = JSON.parse(localStorage.todos);
+    const active = todos.filter((todo) => !todo.completed);
+    renderTodos(active);
+    return;
+  }
+
+  if (e.target.closest("#completed-todos")) {
+    const todos = JSON.parse(localStorage.todos);
+    const completed = todos.filter((todo) => todo.completed);
+    renderTodos(completed);
+  }
 });
 
 todoList.addEventListener("click", (e) => {
@@ -113,10 +144,11 @@ todoList.addEventListener("click", (e) => {
     const li = e.target.closest("li");
     const todoText = li.querySelector("span").textContent;
     const todos = JSON.parse(localStorage.todos);
-    const newTodos = todos.map((todo) =>
-      todo.name === todoText ? { ...todo, completed: !todo.completed } : todo
-    );
-    localStorage.todos = JSON.stringify(newTodos);
+    const toggledTodo = todos.find((todo) => todo.name === todoText);
+    toggledTodo.completed = !toggledTodo.completed;
+    localStorage.todos = JSON.stringify(todos);
+
+    filterBtns.find((input) => input.checked).click();
 
     const editBtn = li.getElementsByClassName("edit-todo")[0];
     editBtn.disabled = !editBtn.disabled;

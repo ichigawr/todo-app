@@ -81,6 +81,43 @@ label {
     user-select: none;
 }
 
+#filter-todos {
+    display: flex;
+    gap: 50px;
+    margin: 0 auto;
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 0.3125rem;
+    }
+
+    span {
+        color: var(--gray);
+    }
+
+    input {
+        appearance: none;
+        display: block;
+        width: 0.9375rem;
+        height: 0.9375rem;
+        border: 3px solid var(--gray);
+        border-radius: 50%;
+        background-color: transparent;
+        cursor: pointer;
+        transition: background-color 0.3s, border-width 0.3s;
+
+        &:checked {
+            background-color: var(--red);
+            border-width: 2px;
+        }
+
+        &:checked + span {
+            color: var(--red);
+        }
+    }
+}
+
 #todo-list {
     width: 100%;
     display: flex;

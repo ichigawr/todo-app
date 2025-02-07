@@ -24,7 +24,22 @@
                 <button id="add-todo">Add</button>
             </div>
 
-            <p id="alert-text">Please enter a todo.</p>
+            <p id="alert-text">Alert text placeholder</p>
+
+            <div id="filter-todos">
+                <label>
+                    <input type="radio" name="filter" id="all-todos" checked>
+                    <span>All</span>
+                </label>
+                <label>
+                    <input type="radio" name="filter" id="active-todos">
+                    <span>Active</span>
+                </label>
+                <label>
+                    <input type="radio" name="filter" id="completed-todos">
+                    <span>Completed</span>
+                </label>
+            </div>
 
             <ul id="todo-list"></ul>
         </main>
