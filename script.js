@@ -47,7 +47,8 @@ const renderTodos = (todos = JSON.parse(localStorage.todos)) => {
 addBtn.addEventListener("click", () => {
   const todo = input.value.trim();
 
-  const alert = () => {
+  const alert = (message) => {
+    alertText.textContent = message;
     alertText.style.color = "red";
 
     setTimeout(() => {
@@ -56,16 +57,14 @@ addBtn.addEventListener("click", () => {
   };
 
   if (todo.length === 0) {
-    alertText.textContent = "Please enter a todo.";
-    alert();
+    alert("Please enter a todo.");
     return;
   }
 
   const todos = JSON.parse(localStorage.todos);
 
   if (todos.some((t) => t.name === todo)) {
-    alertText.textContent = "Todo already exists.";
-    alert();
+    alert("Todo already exists.");
     return;
   }
 
