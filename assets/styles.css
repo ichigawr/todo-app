@@ -74,7 +74,7 @@ label {
     }
 }
 
-p {
+#alert-text {
     margin: -1.25rem 0 0 1.25rem;
     color: transparent;
     user-select: none;
@@ -101,68 +101,68 @@ p {
         gap: 0.625rem;
     }
 
-    input {
-        appearance: none;
-        position: relative;
-        display: block;
-        width: 1.5625rem;
-        height: 1.5625rem;
-        border: 3px solid var(--gray);
-        border-radius: 50%;
-        cursor: pointer;
-        transition: background-color 0.2s, border-color 0.2s;
+    label:hover input:not(:checked) {
+        background-color: var(--gray);
     }
+}
 
-    input:checked {
-        background-color: var(--red);
-        border-color: var(--red);
-    }
+#todo-list li input {
+    appearance: none;
+    position: relative;
+    display: block;
+    width: 1.5625rem;
+    height: 1.5625rem;
+    border: 3px solid var(--gray);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
 
-    input:checked + span {
+#todo-list li input:checked {
+    background-color: var(--red);
+    border-color: var(--red);
+
+    + span {
         text-decoration: line-through;
         color: var(--gray);
     }
 
-    label:hover input:not(:checked) {
-        background-color: var(--gray);
-    }
-
-    input::before,
-    input::after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-    }
-
-    input::before {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        background-color: var(--red);
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0;
-        transition: transform 0.2s, opacity 0.2s;
-    }
-
-    input:checked:focus::before {
+    &:focus::before {
         transform: translate(-50%, -50%) scale(2);
         opacity: 0.2;
     }
 
-    input::after {
-        width: 50%;
-        height: 25%;
-        border: solid 2px transparent;
-        border-right: none;
-        border-top: none;
-        transform: translate(-50%, -60%) rotate(-45deg);
-    }
-
-    input:checked::after {
+    &::after {
         border-color: var(--white);
     }
+}
+
+#todo-list li input::before,
+#todo-list li input::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+#todo-list li input::before {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--red);
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+#todo-list li input::after {
+    width: 50%;
+    height: 25%;
+    border: solid 2px transparent;
+    border-right: none;
+    border-top: none;
+    transform: translate(-50%, -60%) rotate(-45deg);
 }
 
 .fa-solid.fa-list-check {
