@@ -111,16 +111,17 @@ todoList.addEventListener("click", (e) => {
 
     input.addEventListener("blur", () => {
       const newText = input.value.trim();
-      if (newText) {
-        const todos = JSON.parse(localStorage.todos);
-        const newTodos = todos.map((todo) =>
-          todo.name === todoText ? { ...todo, name: newText } : todo
-        );
-        localStorage.todos = JSON.stringify(newTodos);
-        renderTodos();
-      } else {
+
+      if (!newText) {
         input.replaceWith(span);
+        return;
       }
+
+      const todos = JSON.parse(localStorage.todos);
+      const editedTodo = todos.find((todo) => todo.name === todoText);
+      editedTodo.name = newText;
+      localStorage.todos = JSON.stringify(todos);
+      input.outerHTML = `<span>${newText}</span>`;
     });
 
     input.addEventListener("keypress", (e) => {
