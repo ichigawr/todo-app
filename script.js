@@ -98,60 +98,72 @@ filter.addEventListener("click", (e) => {
   }
 });
 
-todoList.addEventListener("click", (e) => {
-  // Edit todo
-  if (e.target.closest(".edit-todo")) {
-    const li = e.target.closest("li");
-    const span = li.querySelector("span");
-    const todoText = span.textContent;
-    const input = document.createElement("input");
-    input.value = todoText;
-    span.replaceWith(input);
-    input.focus();
+const editTodo = (e) => {
+  const li = e.target.closest("li");
+  const span = li.querySelector("span");
+  const todoText = span.textContent;
+  const input = document.createElement("input");
+  input.value = todoText;
+  span.replaceWith(input);
+  input.focus();
 
-    input.addEventListener("blur", () => {
-      const newText = input.value.trim();
+  input.addEventListener("blur", () => {
+    const newText = input.value.trim();
 
-      if (!newText) {
-        input.replaceWith(span);
-        return;
-      }
+    if (!newText) {
+      input.replaceWith(span);
+      return;
+    }
 
-      const todos = JSON.parse(localStorage.todos);
-      const editedTodo = todos.find((todo) => todo.name === todoText);
-      editedTodo.name = newText;
-      localStorage.todos = JSON.stringify(todos);
-      input.outerHTML = `<span>${newText}</span>`;
-    });
-
-    input.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") input.blur();
-    });
-  }
-
-  // Delete todo
-  if (e.target.closest(".delete-todo")) {
-    const todoText = e.target.closest("li").querySelector("span").textContent;
     const todos = JSON.parse(localStorage.todos);
-    const newTodos = todos.filter((todo) => todo.name !== todoText);
-    localStorage.todos = JSON.stringify(newTodos);
-    renderTodos();
+    const editedTodo = todos.find((todo) => todo.name === todoText);
+    editedTodo.name = newText;
+    localStorage.todos = JSON.stringify(todos);
+    input.outerHTML = `<span>${newText}</span>`;
+  });
+
+  input.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") input.blur();
+  });
+};
+
+const deleteTodo = (e) => {
+  const todoText = e.target.closest("li").querySelector("span").textContent;
+  const todos = JSON.parse(localStorage.todos);
+  const newTodos = todos.filter((todo) => todo.name !== todoText);
+  localStorage.todos = JSON.stringify(newTodos);
+  renderTodos();
+};
+
+const toggleCompleted = (e) => {
+  const li = e.target.closest("li");
+  const todoText = li.querySelector("span").textContent;
+  const todos = JSON.parse(localStorage.todos);
+  const toggledTodo = todos.find((todo) => todo.name === todoText);
+  toggledTodo.completed = !toggledTodo.completed;
+  localStorage.todos = JSON.stringify(todos);
+
+  setTimeout(() => {
+    filterBtns.find((input) => input.checked).click();
+  }, 200);
+
+  const editBtn = li.getElementsByClassName("edit-todo")[0];
+  editBtn.disabled = !editBtn.disabled;
+};
+
+todoList.addEventListener("click", (e) => {
+  if (e.target.closest(".edit-todo")) {
+    editTodo(e);
     return;
   }
 
-  // Toggle todo completion
+  if (e.target.closest(".delete-todo")) {
+    deleteTodo(e);
+    return;
+  }
+
   if (e.target.tagName === "INPUT") {
-    const li = e.target.closest("li");
-    const todoText = li.querySelector("span").textContent;
-    const todos = JSON.parse(localStorage.todos);
-    const toggledTodo = todos.find((todo) => todo.name === todoText);
-    toggledTodo.completed = !toggledTodo.completed;
-    localStorage.todos = JSON.stringify(todos);
-
-    filterBtns.find((input) => input.checked).click();
-
-    const editBtn = li.getElementsByClassName("edit-todo")[0];
-    editBtn.disabled = !editBtn.disabled;
+    toggleCompleted(e);
   }
 });
 

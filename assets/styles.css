@@ -236,11 +236,12 @@ label {
     --red: #e7503f;
 
     color: var(--red);
-    transition: color 0.4s, background-color 0.4s;
+    transition: color 0.2s, background-color 0.4s;
 
     &:not(:disabled):hover {
         color: white;
         background-color: var(--red);
+        transition: color 0.4s, background-color 0.4s;
     }
 
     &:disabled {
