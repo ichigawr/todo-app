@@ -7,7 +7,13 @@ const todoList = document.getElementById("todo-list");
 
 localStorage.todos ??= JSON.stringify([]);
 
-const renderTodos = (todos = JSON.parse(localStorage.todos)) => {
+const renderTodos = (todos) => {
+  try {
+    todos = todos ?? JSON.parse(localStorage.todos);
+  } catch (error) {
+    console.error(error);
+  }
+
   if (todos.length === 0) {
     todoList.innerHTML = `
       <li>
@@ -61,17 +67,21 @@ addBtn.addEventListener("click", () => {
     return;
   }
 
-  const todos = JSON.parse(localStorage.todos);
+  try {
+    const todos = JSON.parse(localStorage.todos);
 
-  if (todos.some((t) => t.name === todo)) {
-    alert("Todo already exists.");
-    return;
+    if (todos.some((t) => t.name === todo)) {
+      alert("Todo already exists.");
+      return;
+    }
+
+    todos.push({ name: todo, completed: false });
+    localStorage.todos = JSON.stringify(todos);
+    renderTodos();
+    input.value = "";
+  } catch (error) {
+    console.error(error);
   }
-
-  todos.push({ name: todo, completed: false });
-  localStorage.todos = JSON.stringify(todos);
-  renderTodos();
-  input.value = "";
 });
 
 input.addEventListener("keypress", (e) => {
@@ -79,22 +89,26 @@ input.addEventListener("keypress", (e) => {
 });
 
 filter.addEventListener("click", (e) => {
-  if (e.target.closest("#all-todos")) {
-    renderTodos();
-    return;
-  }
-
-  if (e.target.closest("#active-todos")) {
+  try {
     const todos = JSON.parse(localStorage.todos);
-    const active = todos.filter((todo) => !todo.completed);
-    renderTodos(active);
-    return;
-  }
 
-  if (e.target.closest("#completed-todos")) {
-    const todos = JSON.parse(localStorage.todos);
-    const completed = todos.filter((todo) => todo.completed);
-    renderTodos(completed);
+    if (e.target.closest("#all-todos")) {
+      renderTodos();
+      return;
+    }
+
+    if (e.target.closest("#active-todos")) {
+      const active = todos.filter((todo) => !todo.completed);
+      renderTodos(active);
+      return;
+    }
+
+    if (e.target.closest("#completed-todos")) {
+      const completed = todos.filter((todo) => todo.completed);
+      renderTodos(completed);
+    }
+  } catch (error) {
+    console.error(error);
   }
 });
 
@@ -115,10 +129,15 @@ const editTodo = (e) => {
       return;
     }
 
-    const todos = JSON.parse(localStorage.todos);
-    const editedTodo = todos.find((todo) => todo.name === todoText);
-    editedTodo.name = newText;
-    localStorage.todos = JSON.stringify(todos);
+    try {
+      const todos = JSON.parse(localStorage.todos);
+      const editedTodo = todos.find((todo) => todo.name === todoText);
+      editedTodo.name = newText;
+      localStorage.todos = JSON.stringify(todos);
+    } catch (error) {
+      console.error(error);
+    }
+
     input.outerHTML = `<span>${newText}</span>`;
   });
 
@@ -129,19 +148,30 @@ const editTodo = (e) => {
 
 const deleteTodo = (e) => {
   const todoText = e.target.closest("li").querySelector("span").textContent;
-  const todos = JSON.parse(localStorage.todos);
-  const newTodos = todos.filter((todo) => todo.name !== todoText);
-  localStorage.todos = JSON.stringify(newTodos);
+
+  try {
+    const todos = JSON.parse(localStorage.todos);
+    const newTodos = todos.filter((todo) => todo.name !== todoText);
+    localStorage.todos = JSON.stringify(newTodos);
+  } catch (error) {
+    console.error(error);
+  }
+
   renderTodos();
 };
 
 const toggleCompleted = (e) => {
   const li = e.target.closest("li");
   const todoText = li.querySelector("span").textContent;
-  const todos = JSON.parse(localStorage.todos);
-  const toggledTodo = todos.find((todo) => todo.name === todoText);
-  toggledTodo.completed = !toggledTodo.completed;
-  localStorage.todos = JSON.stringify(todos);
+
+  try {
+    const todos = JSON.parse(localStorage.todos);
+    const toggledTodo = todos.find((todo) => todo.name === todoText);
+    toggledTodo.completed = !toggledTodo.completed;
+    localStorage.todos = JSON.stringify(todos);
+  } catch (error) {
+    console.error(error);
+  }
 
   setTimeout(() => {
     filterBtns.find((input) => input.checked).click();
