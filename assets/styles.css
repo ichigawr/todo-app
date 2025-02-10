@@ -142,10 +142,16 @@ label {
     label:hover .checkbox:not(:checked) {
         background-color: var(--gray);
     }
+
+    span {
+        white-space: normal;
+        word-break: break-word;
+    }
 }
 
 #todo-list li .checkbox {
     appearance: none;
+    flex-shrink: 0;
     position: relative;
     display: block;
     width: 1.5625rem;
