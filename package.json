@@ -1,0 +1,23 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3001"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ichigawr/todo-app.git"
+  },
+  "keywords": [],
+  "author": "NguyenXuanVinh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ichigawr/todo-app/issues"
+  },
+  "homepage": "https://github.com/ichigawr/todo-app#readme",
+  "description": "",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}
