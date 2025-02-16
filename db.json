@@ -1,19 +1,29 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "email": "vinh@gmail.com",
+      "password": "$2a$10$gv2s6wRlJp6xioXt3dsL4Oalt7yKD2.xJ8kck6iq47P7DdhGjYHxC"
+    }
+  ],
   "todos": [
     {
       "id": 1,
       "title": "Learn React",
-      "completed": true
+      "completed": true,
+      "userId": 1
     },
     {
       "id": 2,
       "title": "Learn Redux",
-      "completed": true
+      "completed": true,
+      "userId": 1
     },
     {
       "id": 3,
       "title": "Learn Redux Thunk",
-      "completed": false
+      "completed": false,
+      "userId": 1
     }
   ]
 }

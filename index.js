@@ -1,15 +1,20 @@
+if (localStorage.getItem("loginData") === null) {
+  location.href = "./html/login.html";
+}
+
 import { renderTodos, todoList } from "./js/ui.js";
-import { getTodos, addTodo } from "./js/api.js";
+import { userId, getTodos, addTodo } from "./js/api.js";
 import { editTodo, removeTodo, toggleCompleted } from "./js/handlers.js";
 
-const mainInput = document.getElementById("todo-input");
+const addTodoInput = document.getElementById("todo-input");
 const addBtn = document.getElementById("add-todo");
 const alertText = document.getElementById("alert-text");
 const filter = document.getElementById("filter-todos");
 const filterBtns = Array.from(filter.getElementsByTagName("input"));
+const logoutBtn = document.getElementById("logout-btn");
 
 addBtn.addEventListener("click", async () => {
-  const todo = mainInput.value.trim();
+  const todo = addTodoInput.value.trim();
 
   const alert = (message) => {
     alertText.textContent = message;
@@ -32,12 +37,12 @@ addBtn.addEventListener("click", async () => {
     return;
   }
 
-  await addTodo({ title: todo, completed: false });
+  await addTodo({ title: todo, completed: false, userId });
   await renderTodos();
-  mainInput.value = "";
+  addTodoInput.value = "";
 });
 
-mainInput.addEventListener("keypress", (e) => {
+addTodoInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") addBtn.click();
 });
 
@@ -75,6 +80,11 @@ todoList.addEventListener("click", async (e) => {
   if (e.target.tagName === "INPUT") {
     await toggleCompleted(e, filterBtns);
   }
+});
+
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("loginData");
+  location.href = "./html/login.html";
 });
 
 await renderTodos();

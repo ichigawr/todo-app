@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:3001/todos";
+const API_URL = `http://localhost:3001/todos`;
+const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
+export const userId = loginData?.user?.id;
 
 export const getTodos = async () => {
   const options = {
@@ -8,7 +10,7 @@ export const getTodos = async () => {
     method: "GET",
   };
 
-  return fetch(API_URL, options)
+  return fetch(`${API_URL}?userId=${userId}`, options)
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);

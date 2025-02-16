@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="assets/icons/logo.png" />
+        <link rel="icon" href="assets/logo.png" />
         <title>To-Do List</title>
-        <link rel="stylesheet" href="assets/styles.css" />
+        <link rel="stylesheet" href="assets/index.css" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -29,20 +29,22 @@
 
             <div id="filter-todos">
                 <label>
-                    <input type="radio" name="filter" id="all-todos" checked>
+                    <input type="radio" name="filter" id="all-todos" checked />
                     <span>All</span>
                 </label>
                 <label>
-                    <input type="radio" name="filter" id="active-todos">
+                    <input type="radio" name="filter" id="active-todos" />
                     <span>Active</span>
                 </label>
                 <label>
-                    <input type="radio" name="filter" id="completed-todos">
+                    <input type="radio" name="filter" id="completed-todos" />
                     <span>Completed</span>
                 </label>
             </div>
 
             <ul id="todo-list"></ul>
+
+            <button id="logout-btn">Logout</button>
         </main>
 
         <script type="module" src="index.js"></script>
