@@ -50,10 +50,6 @@ export const toggleCompleted = async (e, filterBtns) => {
   toggledTodo.completed = !toggledTodo.completed;
   await patchTodo(toggledTodo.id, toggledTodo);
 
-  setTimeout(() => {
-    filterBtns.find((input) => input.checked).click();
-  }, 200);
-
   const editBtn = li.getElementsByClassName("edit-todo")[0];
   editBtn.disabled = !editBtn.disabled;
 };
